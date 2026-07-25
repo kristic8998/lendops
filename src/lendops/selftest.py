@@ -7,6 +7,7 @@ and the Windows build script runs before freezing the exe.
 
 from __future__ import annotations
 
+import sys
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
@@ -16,7 +17,19 @@ from .core import demo
 from .core.config import AppConfig, load_config, save_config
 
 
+def _utf8_console() -> None:
+    """Make stdout/stderr UTF-8 so ₹/·/— print fine on Windows pipes (cp1252)."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except Exception:  # noqa: BLE001 - console cosmetics must never break the test
+                pass
+
+
 def run() -> int:
+    _utf8_console()
     print(f"LendOps Studio v{__version__} — self-test")
     checks: list[tuple[str, Callable[[], str]]] = []
     tmp = Path(tempfile.mkdtemp(prefix="lendops_selftest_"))
