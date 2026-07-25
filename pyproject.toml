@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lendops"
+version = "1.0.0"
+description = "LendOps Studio — unified micro-lending operations desktop suite: delinquency prediction (Collecta), credit-rule backtesting (PolicySim), and KYC fraud detection (KYC Sentinel)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Kristi Chakraborty" }]
+keywords = ["lending", "microfinance", "risk", "kyc", "backtesting", "collections", "desktop"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "customtkinter>=5.2",
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pyinstaller>=6.3", "pytest>=8.0", "black>=24.1", "ruff>=0.2"]
+
+[project.scripts]
+lendops = "lendops.app:main"
+
+[project.urls]
+Homepage = "https://github.com/kristic8998/lendops"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
