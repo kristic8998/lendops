@@ -6,8 +6,8 @@ One desktop app for the three daily jobs of a micro-lending operations team — 
 
 Grab either artifact from the [Releases page](https://github.com/kristic8998/lendops/releases):
 
-- **`LendOps-Setup-1.0.0.exe`** — normal Windows installer (Start-menu shortcuts, uninstaller, no admin needed)
-- **`LendOps-1.0.0-portable.zip`** — unzip anywhere and run, nothing installed
+- **`LendOps-Setup-1.1.0.exe`** — normal Windows installer (Start-menu shortcuts, uninstaller, no admin needed)
+- **`LendOps-1.1.0-portable.zip`** — unzip anywhere and run, nothing installed
 
 Neither requires Python on the target PC. Full instructions (including building from source): **[docs/INSTALL.md](docs/INSTALL.md)**.
 
@@ -30,7 +30,7 @@ python -m venv .venv && .venv\Scripts\activate.bat
 pip install -e ".[dev]"
 lendops              :: launches the app
 lendops --selftest   :: verifies all engines headlessly
-pytest               :: 44 engine/core tests
+pytest               :: 47 engine/core tests
 scripts\build_windows.bat   :: freeze LendOps.exe (Windows only)
 ```
 
@@ -63,7 +63,7 @@ This creates a `mock_data\` folder with four files.
 │   ├── ui/          # CustomTkinter shell, widgets (HelperCard, DataGrid…), 4 pages
 │   ├── app.py       # composition root + window shell
 │   └── selftest.py  # `lendops --selftest`
-├── tests/           # 44 tests over every engine
+├── tests/           # 47 tests over every engine
 ├── sample_data/     # the three demo CSVs (also embedded in the app)
 ├── scripts/         # build_windows.bat, build_portable.bat
 ├── installer/       # Inno Setup script (lendops.iss) -> Setup.exe
