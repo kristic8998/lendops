@@ -15,7 +15,7 @@
 ; ============================================================================
 
 #define AppName "LendOps Studio"
-#define AppVersion "1.0.0"
+#define AppVersion "1.1.0"
 #define AppPublisher "Kristi Chakraborty"
 #define AppExeName "LendOps.exe"
 #define AppURL "https://github.com/kristic8998/lendops"
