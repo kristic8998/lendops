@@ -34,6 +34,26 @@ pytest               :: 44 engine/core tests
 scripts\build_windows.bat   :: freeze LendOps.exe (Windows only)
 ```
 
+## Test-drive with realistic mock data (no real data needed)
+
+A standalone simulator fabricates one dataset per module — including planted
+fraud cases and known edge cases, so you can *check* the app's answers, not
+just admire them.
+
+**Step 1 — generate the data** (from the repo folder; only needs pandas/numpy/openpyxl):
+
+```bat
+python mock_data_simulator.py
+```
+
+This creates a `mock_data\` folder with four files.
+
+**Step 2 — start the app** (`lendops`), then upload each file on its page:
+
+1. **Collecta** → `mock_data\active_loans.xlsx`. Row `LN50000` has DPD 90 but a rosy profile everywhere else — it must still score **High** (that's the severe-DPD floor). Try `active_loans_sparse.csv` too: only 3 columns, the app must still work.
+2. **PolicySim** → `mock_data\historical_loans.xlsx`. Move the sliders and watch approval rate, default rate and profit react.
+3. **KYC Sentinel** → `mock_data\daily_applications.xlsx`. Exactly **3 alerts** are planted (a shared bank account under two names, and one underage applicant) plus several watch-level cases (bad PAN, absurd ask, shared phone, missing account). If the scan finds them all, the engine is healthy.
+
 ## Project structure
 
 ```
