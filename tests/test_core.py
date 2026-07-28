@@ -79,3 +79,44 @@ class TestTabular:
         df.to_excel(xlsx, index=False)
         assert len(read_table(csv)) == 2
         assert len(read_table(xlsx)) == 2
+
+
+class TestParseAmount:
+    def test_text_money_and_negatives(self):
+        import math
+
+        from lendops.modules.tabular import parse_amount
+
+        assert parse_amount("Rs 1,20,000.00") == 120000.0
+        assert parse_amount("(2,500.00)") == -2500.0
+        assert parse_amount("500 Dr") == -500.0
+        assert parse_amount("24%") == 24.0
+        assert math.isnan(parse_amount("LN50021"))
+
+    def test_num_series_handles_text_money(self):
+        import pandas as pd
+
+        from lendops.modules.tabular import num_series
+
+        frame = pd.DataFrame({"emi": ["Rs 3,500", "(200)", "bad", None]})
+        out = num_series(frame, "emi")
+        assert out.tolist() == [3500.0, -200.0, 0.0, 0.0]
+
+    def test_collecta_scores_text_money_file(self):
+        import pandas as pd
+
+        from lendops.modules import collecta
+
+        frame = pd.DataFrame(
+            {
+                "loan_id": ["L1", "L2"],
+                "dpd": [90, 0],
+                "outstanding": ["Rs 10,000", "Rs 2,000"],
+                "loan_amount": ["Rs 20,000", "Rs 8,000"],
+                "monthly_income": ["15,000", "25,000"],
+                "emi": ["Rs 1,800", "Rs 700"],
+            }
+        )
+        result = collecta.analyze(frame)
+        assert result.frame.iloc[0]["risk_band"] == "High"  # dpd 90 floor intact
+        assert result.summary.outstanding_at_risk > 0  # text money was parsed
