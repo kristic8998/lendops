@@ -6,11 +6,11 @@ rem  No installer, no admin rights: unzip anywhere and double-click.
 rem  Python is bundled inside, so the target PC needs no Python.
 rem
 rem  Prereq: run scripts\build_windows.bat first (creates dist\LendOps).
-rem  Output: dist\LendOps-1.0.0-portable.zip
+rem  Output: dist\LendOps-1.1.0-portable.zip
 rem ============================================================================
 setlocal
 cd /d "%~dp0.."
-set "VERSION=1.0.0"
+set "VERSION=1.1.0"
 set "PKG=LendOps-%VERSION%-portable"
 
 if not exist "dist\LendOps\LendOps.exe" (
